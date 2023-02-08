@@ -1,1 +1,3 @@
-# color-picker
+# Color picker
+
+To make it run
