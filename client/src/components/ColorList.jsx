@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import ColorItem from './ColorItem.jsx'
-import useApiService from '../services/ApiService.js'
+import useColorService from '../services/ColorService.js'
  
 const ColorList = (props) => {
 
-    const apiService = useApiService()
+    const colorService = useColorService()
     const { red, green, blue } = props
     const [colorList, setColorList] = useState([])
     const [colorName, setColorName] = useState("")
@@ -14,9 +14,8 @@ const ColorList = (props) => {
     }, [])
 
     function loadColorList() {
-        apiService.getColors()
+        colorService.getColors()
         .then(res => {
-            console.log(res)
             setColorList(res.data)
         })
         .catch(err => {
@@ -25,7 +24,7 @@ const ColorList = (props) => {
     }
 
     function saveColor() {
-        apiService.postColor(red, green, blue, colorName)
+        colorService.postColor(red, green, blue, colorName)
         .then(res => {
             loadColorList()
         })
@@ -35,7 +34,7 @@ const ColorList = (props) => {
     }
 
     function deleteColor(id) {
-        apiService.deleteColor(id)
+        colorService.deleteColor(id)
         .then(res => {
             loadColorList()
         })

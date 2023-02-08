@@ -28,7 +28,7 @@ const ColorPicker = (props) => {
                     style={{backgroundColor:getRGBStyleValue(red, green, blue)}} 
                 >
                     <div onClick={onRandomColor} className="p-1 bg-black/40 w-fit h-fit rounded ml-auto group hover:bg-black/80 cursor-pointer">
-                        <ArrowPathIcon class="h-6 h-6 text-white group-hover:rotate-90 transition-all duration-200" />
+                        <ArrowPathIcon className="h-6 h-6 text-white group-hover:rotate-90 transition-all duration-200" />
                     </div>
                 </div>
             </div>

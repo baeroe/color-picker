@@ -1,6 +1,6 @@
 import axios from "axios";
 
-class ApiService {
+class ColorService {
     constructor() {
         this.client = axios.create( 
             {
@@ -28,8 +28,8 @@ class ApiService {
     }
 }
 
-const useApiService = () => {
-    return new ApiService()
+const useColorService = () => {
+    return new ColorService()
 }
 
-export default useApiService
+export default useColorService

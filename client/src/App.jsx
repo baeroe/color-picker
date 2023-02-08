@@ -17,7 +17,7 @@ function App() {
 
   return (
     <div className="bg-slate-900 p-5 min-h-screen">
-      <h1 className="w-full text-center mb-5 text-3xl text-slate-900 text-white">Color palette</h1>
+      <h1 className="w-full text-center mb-5 text-3xl text-slate-900 text-white">Color picker</h1>
       <div className="w-5/6 mx-auto bg-slate-700 rounded p-5 shadow">
         <ColorPicker 
           red={red}
