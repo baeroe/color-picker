@@ -17,6 +17,7 @@ const ColorList = (props) => {
         colorService.getColors()
         .then(res => {
             setColorList(res.data)
+            setColorName("")
         })
         .catch(err => {
             console.log(err)
@@ -43,6 +44,13 @@ const ColorList = (props) => {
         }) 
     }
 
+    function handleKeyPress(e) {
+        if(e.key === 'Enter'){
+            saveColor();
+        }
+      }
+      
+
     return (
         <div className="mt-10 flex flex-col">
             <label htmlFor="colorname" className="text-sm text-white mb-1">Name:</label>
@@ -51,6 +59,8 @@ const ColorList = (props) => {
                     id="colorname" 
                     type="text"    
                     onChange={(e) => setColorName(e.target.value)} 
+                    value={colorName}
+                    onKeyPress={handleKeyPress}
                     className="shadow-inner py-1 px-2 bg-slate-500 text-white border border-slate-600 outline-none rounded-tl rounded-bl" 
                 />
                 <button 
