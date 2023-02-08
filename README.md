@@ -14,7 +14,7 @@ cd client
 npm i --force 
 npm run dev
 ````
-The `--force` is required because I used react numeric input component with an older react version.
+The `--force` is required because I used a react numeric input component with an older react version.
 
 To run the server:
 ````
