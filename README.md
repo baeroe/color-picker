@@ -11,9 +11,10 @@ Make sure to have installed:
 To run the client:
 ````
 cd client
-npm run i
+npm i --force 
 npm run dev
 ````
+The `--force` is required because I used react numeric input component with an older react version.
 
 To run the server:
 ````
@@ -25,7 +26,6 @@ Adjust the `DATABASE_URL` in the .env file in the server folder.
 Then run: 
 ````
 php bin/console doctrine:database:create
-php bin/console make:migration
 php bin/console doctrine:migrations:migrate
 symfony server:start
 ````
