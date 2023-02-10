@@ -1,40 +1,41 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\Color;
+use App\Interfaces\Mapper\IColorMapper;
+use App\Interfaces\Services\IColorService;
 
 /**
  * @Route("/api", name="api_")
  */
 class ColorController extends AbstractController
 {
+    protected IColorMapper $colorMapper;
+    protected IColorService $colorService;
+
+    public function __construct(IColorMapper $colorMapper, IColorService $colorService)
+    {
+        $this->colorMapper = $colorMapper;
+        $this->colorService = $colorService;
+    }
     /**
     * @Route("/color", name="color_index", methods={"GET"})
     */
-    public function index(ManagerRegistry $doctrine): Response
+    public function index(): Response
     {
-        $colors = $doctrine
-            ->getRepository(Color::class)
-            ->findAll();
-  
+        $colors = $this->colorService->getAll();
+        
         $data = [];
-  
         foreach ($colors as $color) {
-           $data[] = [
-               'id' => $color->getId(),
-               'name' => $color->getName(),
-               'red' => $color->getRed(),
-               'green' => $color->getGreen(),
-               'blue' => $color->getBlue(),
-               'hexcode' => $color->getHexcode(),
-           ];
+           $data[] = $this->colorMapper->MapToArray($color);
         }
+
         return $this->json($data);
     }
  
@@ -42,23 +43,12 @@ class ColorController extends AbstractController
     /**
      * @Route("/color", name="color_new", methods={"POST"})
      */
-    public function new(ManagerRegistry $doctrine, Request $request): Response
-    {
-        $entityManager = $doctrine->getManager();
-        
-        $parameters = json_decode($request->getContent(), true);
+    public function new(Request $request): Response
+    {        
+        $body = json_decode($request->getContent(), true);
 
-        $color = new Color();
-        $color->setRed($parameters['red']);
-        $color->setGreen($parameters['green']);
-        $color->setBlue($parameters['blue']);
-        $color->setName($parameters['name']);
-
-        $hexcode = sprintf("#%02x%02x%02x", $parameters['red'], $parameters['green'], $parameters['blue']);
-        $color->setHexcode($hexcode);  
-        
-        $entityManager->persist($color);
-        $entityManager->flush();
+        $color = $this->colorMapper->MapToColor($body);
+        $color = $this->colorService->add($color);
   
         return $this->json('Created new color successfully with id ' . $color->getId());
     }
@@ -66,18 +56,15 @@ class ColorController extends AbstractController
     /**
      * @Route("/color/{id}", name="color_delete", methods={"DELETE"})
      */
-    public function delete(ManagerRegistry $doctrine, int $id): Response
+    public function delete(int $id): Response
     {
-        $entityManager = $doctrine->getManager();
-        $color = $entityManager->getRepository(Color::class)->find($id);
-  
+        $color = $this->colorService->get($id);
         if (!$color) {
             return $this->json('No color found for id' . $id, 404);
         }
   
-        $entityManager->remove($color);
-        $entityManager->flush();
-  
+        $this->colorService->delete($id);
+
         return $this->json('Deleted a color successfully with id ' . $id);
     }
 
