@@ -22,11 +22,11 @@ services:
 
   # add more service definitions when explicit configuration is needed
   # please note that last definitions always *replace* previous ones
-  App\Interfaces\Repository\IColorRepository:
+  App\Interface\Repository\ColorRepositoryInterface:
     class: App\Repository\ColorRepository
 
-  App\Interfaces\Services\IColorService:
-    class: App\Services\ColorService
+  App\Interface\Service\ColorServiceInterface:
+    class: App\Service\ColorService
 
-  App\Interfaces\Mapper\IColorMapper:
+  App\Interface\Mapper\ColorMapperInterface:
     class: App\Mapper\ColorMapper

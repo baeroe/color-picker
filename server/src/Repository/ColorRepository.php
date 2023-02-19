@@ -1,15 +1,13 @@
 <?php
 
-declare(strict_types=1);
-
-namespace App\Repositories;
+namespace App\Repository;
 
 use App\Entity\Color;
-use App\Interfaces\Repositories\IColorRepository;
+use App\Interface\Repository\ColorRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-class ColorRepository extends ServiceEntityRepository implements IColorRepository
+class ColorRepository extends ServiceEntityRepository implements ColorRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -32,7 +30,7 @@ class ColorRepository extends ServiceEntityRepository implements IColorRepositor
         }
     }
 
-    public function get(int $id) : Color
+    public function get(int $id): Color
     {
         return $this->find($id);
     }
